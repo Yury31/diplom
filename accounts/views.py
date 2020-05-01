@@ -9,21 +9,17 @@ def user_login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(request, user_name=cd['user_name'],
-                                password=['password'])
+            user = authenticate(request,
+                                username=cd['username'],
+                                password=cd['password'])
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponse('Authenticated successfully!')
+                return HttpResponse('Authenticated successfully')
             else:
-                return HttpResponse('Disabled account!')
+                return HttpResponse('Disabled account')
         else:
-            return HttpResponse('Invalid Login!')
+            return HttpResponse('Invalid login')
     else:
-        form = LoginForm(),
-    return render(request, 'accounts/login.html', {'form':form})
-
-
-
-
-
+        form = LoginForm()
+    return render(request, 'accounts/login.html', {'form': form})
